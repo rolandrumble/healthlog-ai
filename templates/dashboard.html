@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - HealthLog AI</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/dashboard.css">
+</head>
+<body class="dashboard-body">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">
+                <span class="logo-icon">🏥</span>
+                <span class="logo-text">HealthLog<span class="logo-accent">AI</span></span>
+            </div>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="#" class="nav-item active" data-section="overview">
+                <span class="nav-icon">📊</span>
+                <span>Overview</span>
+            </a>
+            <a href="#" class="nav-item" data-section="meals">
+                <span class="nav-icon">🍽️</span>
+                <span>Meals</span>
+            </a>
+            <a href="#" class="nav-item" data-section="symptoms">
+                <span class="nav-icon">📝</span>
+                <span>Symptoms</span>
+            </a>
+            <a href="#" class="nav-item" data-section="medications">
+                <span class="nav-icon">💊</span>
+                <span>Medications</span>
+            </a>
+            <a href="#" class="nav-item" data-section="insights">
+                <span class="nav-icon">🧠</span>
+                <span>AI Insights</span>
+            </a>
+            <a href="#" class="nav-item" data-section="reports">
+                <span class="nav-icon">📄</span>
+                <span>Reports</span>
+            </a>
+        </nav>
+        <div class="sidebar-footer">
+            <a href="#" class="nav-item" onclick="handleLogout()">
+                <span class="nav-icon">🚪</span>
+                <span>Logout</span>
+            </a>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Header -->
+        <header class="dashboard-header">
+            <div class="header-left">
+                <h1 id="page-title">Dashboard Overview</h1>
+                <p id="greeting">Good morning! Here's your health summary.</p>
+            </div>
+            <div class="header-right">
+                <button class="btn btn-primary" onclick="showQuickLogModal()">
+                    <span>+ Quick Log</span>
+                </button>
+                <div class="user-menu">
+                    <span class="user-avatar">👤</span>
+                    <span id="user-name">User</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Overview Section -->
+        <section id="overview-section" class="dashboard-section active">
+            <!-- Stats Cards -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon calories">🔥</div>
+                    <div class="stat-info">
+                        <span class="stat-value" id="today-calories">0</span>
+                        <span class="stat-label">Calories Today</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon meals">🍽️</div>
+                    <div class="stat-info">
+                        <span class="stat-value" id="meals-logged">0</span>
+                        <span class="stat-label">Meals This Week</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon energy">⚡</div>
+                    <div class="stat-info">
+                        <span class="stat-value" id="avg-energy">-</span>
+                        <span class="stat-label">Avg Energy</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon adherence">💊</div>
+                    <div class="stat-info">
+                        <span class="stat-value" id="med-adherence">-</span>
+                        <span class="stat-label">Med Adherence</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Dashboard Grid -->
+            <div class="dashboard-grid">
+                <!-- Recent Meals -->
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <h3>🍽️ Recent Meals</h3>
+                        <a href="#" class="card-link" onclick="navigateTo('meals')">View All</a>
+                    </div>
+                    <div class="card-content" id="recent-meals">
+                        <div class="empty-state">
+                            <span class="empty-icon">🍽️</span>
+                            <p>No meals logged yet</p>
+                            <button class="btn btn-sm btn-outline" onclick="showMealLogModal()">Log Meal</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Daily Check-in -->
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <h3>📋 Daily Check-in</h3>
+                    </div>
+                    <div class="card-content">
+                        <form id="daily-checkin-form">
+                            <div class="slider-group">
+                                <label>Energy Level</label>
+                                <div class="slider-container">
+                                    <input type="range" id="energy-slider" min="1" max="10" value="5">
+                                    <span class="slider-value" id="energy-value">5</span>
+                                </div>
+                            </div>
+                            <div class="slider-group">
+                                <label>Mood</label>
+                                <div class="slider-container">
+                                    <input type="range" id="mood-slider" min="1" max="10" value="5">
+                                    <span class="slider-value" id="mood-value">5</span>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Sleep (hours)</label>
+                                    <input type="number" id="sleep-input" min="0" max="24" step="0.5" placeholder="7.5">
+                                </div>
+                                <div class="form-group">
+                                    <label>Water (glasses)</label>
+                                    <input type="number" id="water-input" min="0" max="20" placeholder="8">
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-block">Save Check-in</button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Recent Symptoms -->
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <h3>📝 Recent Symptoms</h3>
+                        <a href="#" class="card-link" onclick="navigateTo('symptoms')">View All</a>
+                    </div>
+                    <div class="card-content" id="recent-symptoms">
+                        <div class="empty-state">
+                            <span class="empty-icon">✅</span>
+                            <p>No symptoms logged</p>
+                            <button class="btn btn-sm btn-outline" onclick="showSymptomLogModal()">Log Symptom</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AI Chat -->
+                <div class="dashboard-card chat-card">
+                    <div class="card-header">
+                        <h3>🤖 AI Health Assistant</h3>
+                    </div>
+                    <div class="card-content">
+                        <div id="chat-messages" class="chat-messages">
+                            <div class="chat-message bot">
+                                <div class="message-content">
+                                    Hi! I'm your AI health assistant. Ask me anything about nutrition, your health data, or wellness tips!
+                                </div>
+                            </div>
+                        </div>
+                        <div class="chat-input-wrapper">
+                            <input type="text" id="chat-input" placeholder="Ask about your health...">
+                            <button class="btn btn-primary btn-icon" onclick="sendChatMessage()">→</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Meals Section -->
+        <section id="meals-section" class="dashboard-section">
+            <div class="section-actions">
+                <h2>Meal Tracking</h2>
+                <button class="btn btn-primary" onclick="showMealLogModal()">+ Log Meal</button>
+            </div>
+            <div class="meals-grid" id="meals-list">
+                <!-- Populated by JS -->
+            </div>
+        </section>
+
+        <!-- Symptoms Section -->
+        <section id="symptoms-section" class="dashboard-section">
+            <div class="section-actions">
+                <h2>Symptom Tracking</h2>
+                <button class="btn btn-primary" onclick="showSymptomLogModal()">+ Log Symptom</button>
+            </div>
+            <div class="symptoms-list" id="symptoms-list">
+                <!-- Populated by JS -->
+            </div>
+            <div class="dashboard-card mt-4">
+                <div class="card-header">
+                    <h3>🧠 Symptom Pattern Analysis</h3>
+                </div>
+                <div class="card-content" id="symptom-analysis">
+                    <p>Loading analysis...</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Medications Section -->
+        <section id="medications-section" class="dashboard-section">
+            <div class="section-actions">
+                <h2>Medications</h2>
+                <button class="btn btn-primary" onclick="showMedModal()">+ Add Medication</button>
+            </div>
+            <div class="meds-grid" id="meds-list">
+                <!-- Populated by JS -->
+            </div>
+            <div class="dashboard-card mt-4">
+                <div class="card-header">
+                    <h3>📊 Adherence Statistics</h3>
+                </div>
+                <div class="card-content" id="adherence-stats">
+                    <p>Loading...</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Insights Section -->
+        <section id="insights-section" class="dashboard-section">
+            <div class="section-actions">
+                <h2>AI Health Insights</h2>
+            </div>
+            <div class="insights-grid" id="insights-content">
+                <!-- Populated by JS -->
+            </div>
+        </section>
+
+        <!-- Reports Section -->
+        <section id="reports-section" class="dashboard-section">
+            <div class="section-actions">
+                <h2>Health Reports</h2>
+                <button class="btn btn-primary" onclick="generateReport()">Generate Report</button>
+            </div>
+            <div class="dashboard-card">
+                <div class="card-content" id="report-content">
+                    <div class="empty-state">
+                        <span class="empty-icon">📄</span>
+                        <p>Click "Generate Report" to create your weekly health summary</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Quick Log Modal -->
+    <div id="quick-log-modal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('quick-log-modal')">×</button>
+            <h2>Quick Log</h2>
+            <div class="quick-log-options">
+                <button class="quick-option" onclick="closeModal('quick-log-modal'); showMealLogModal()">
+                    <span class="option-icon">🍽️</span>
+                    <span>Log Meal</span>
+                </button>
+                <button class="quick-option" onclick="closeModal('quick-log-modal'); showSymptomLogModal()">
+                    <span class="option-icon">📝</span>
+                    <span>Log Symptom</span>
+                </button>
+                <button class="quick-option" onclick="closeModal('quick-log-modal'); showMedModal()">
+                    <span class="option-icon">💊</span>
+                    <span>Add Medication</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Meal Log Modal -->
+    <div id="meal-log-modal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('meal-log-modal')">×</button>
+            <h2>Log Meal</h2>
+            <form id="meal-form" onsubmit="handleMealSubmit(event)">
+                <div class="form-group">
+                    <label>Meal Photo</label>
+                    <div class="upload-area" id="meal-upload-area">
+                        <input type="file" id="meal-photo" accept="image/*" hidden>
+                        <span class="upload-icon">📸</span>
+                        <p>Click to upload or drag & drop</p>
+                        <p class="upload-hint">AI will analyze nutritional content</p>
+                    </div>
+                    <img id="meal-preview" class="image-preview" style="display: none;">
+                </div>
+                <div class="form-group">
+                    <label>Meal Type</label>
+                    <select id="meal-type">
+                        <option value="breakfast">🌅 Breakfast</option>
+                        <option value="lunch">☀️ Lunch</option>
+                        <option value="dinner">🌙 Dinner</option>
+                        <option value="snack">🍿 Snack</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Description (optional)</label>
+                    <input type="text" id="meal-description" placeholder="e.g., Grilled chicken salad">
+                </div>
+                <button type="submit" class="btn btn-primary btn-block" id="meal-submit-btn">
+                    <span class="btn-text">Log Meal</span>
+                    <span class="btn-loader" style="display: none;">Analyzing...</span>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Symptom Log Modal -->
+    <div id="symptom-log-modal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('symptom-log-modal')">×</button>
+            <h2>Log Symptom</h2>
+            <form id="symptom-form" onsubmit="handleSymptomSubmit(event)">
+                <div class="form-group">
+                    <label>Symptom</label>
+                    <input type="text" id="symptom-name" required placeholder="e.g., Headache, fatigue, nausea">
+                </div>
+                <div class="form-group">
+                    <label>Severity (1-10)</label>
+                    <div class="severity-selector">
+                        <input type="range" id="symptom-severity" min="1" max="10" value="5">
+                        <span class="severity-value" id="severity-display">5</span>
+                    </div>
+                    <div class="severity-labels">
+                        <span>Mild</span>
+                        <span>Severe</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Notes (optional)</label>
+                    <textarea id="symptom-notes" rows="2" placeholder="Any additional details..."></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Log Symptom</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Medication Modal -->
+    <div id="med-modal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('med-modal')">×</button>
+            <h2>Add Medication</h2>
+            <form id="med-form" onsubmit="handleMedSubmit(event)">
+                <div class="form-group">
+                    <label>Medication Name</label>
+                    <input type="text" id="med-name" required placeholder="e.g., Metformin">
+                </div>
+                <div class="form-group">
+                    <label>Dosage</label>
+                    <input type="text" id="med-dosage" required placeholder="e.g., 500mg">
+                </div>
+                <div class="form-group">
+                    <label>Frequency</label>
+                    <select id="med-frequency">
+                        <option value="Once daily">Once daily</option>
+                        <option value="Twice daily">Twice daily</option>
+                        <option value="Three times daily">Three times daily</option>
+                        <option value="As needed">As needed</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Add Medication</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="/static/js/app.js"></script>
+    <script src="/static/js/dashboard.js"></script>
+</body>
+</html>

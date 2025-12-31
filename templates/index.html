@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HealthLog AI - Personal Health Companion</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <span class="logo-icon">🏥</span>
+                <span class="logo-text">HealthLog<span class="logo-accent">AI</span></span>
+            </div>
+            <div class="nav-links">
+                <a href="#features" class="nav-link">Features</a>
+                <a href="#how-it-works" class="nav-link">How It Works</a>
+                <a href="#telegram" class="nav-link">Telegram Bot</a>
+                <button class="btn btn-outline" onclick="showAuthModal('login')">Login</button>
+                <button class="btn btn-primary" onclick="showAuthModal('signup')">Get Started</button>
+            </div>
+            <button class="mobile-menu-btn" onclick="toggleMobileMenu()">☰</button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-bg">
+            <div class="gradient-orb orb-1"></div>
+            <div class="gradient-orb orb-2"></div>
+            <div class="gradient-orb orb-3"></div>
+        </div>
+        <div class="hero-container">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <span class="badge-icon">✨</span>
+                    AI-Powered Health Tracking
+                </div>
+                <h1 class="hero-title">
+                    Your Personal<br>
+                    <span class="gradient-text">Health Companion</span>
+                </h1>
+                <p class="hero-subtitle">
+                    Track meals with AI photo analysis, log symptoms, manage medications, 
+                    and get personalized health insights. All in one place - Web & Telegram.
+                </p>
+                <div class="hero-actions">
+                    <button class="btn btn-primary btn-lg" onclick="showAuthModal('signup')">
+                        Start Free Today
+                        <span class="btn-icon">→</span>
+                    </button>
+                    <a href="#telegram" class="btn btn-ghost btn-lg">
+                        <span class="telegram-icon">📱</span>
+                        Try Telegram Bot
+                    </a>
+                </div>
+                <div class="hero-stats">
+                    <div class="stat">
+                        <span class="stat-icon">📸</span>
+                        <div class="stat-content">
+                            <span class="stat-value">AI Vision</span>
+                            <span class="stat-label">Meal Analysis</span>
+                        </div>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-icon">📊</span>
+                        <div class="stat-content">
+                            <span class="stat-value">Weekly</span>
+                            <span class="stat-label">Health Reports</span>
+                        </div>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-icon">💊</span>
+                        <div class="stat-content">
+                            <span class="stat-value">Smart</span>
+                            <span class="stat-label">Med Reminders</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="phone-mockup">
+                    <div class="phone-screen">
+                        <div class="app-header">
+                            <span>🏥 HealthLog AI</span>
+                            <span class="time">9:41</span>
+                        </div>
+                        <div class="chat-preview">
+                            <div class="chat-bubble user">
+                                <img src="/static/images/meal-placeholder.svg" alt="Meal" class="meal-img">
+                            </div>
+                            <div class="chat-bubble bot">
+                                <p><strong>✅ Meal Logged!</strong></p>
+                                <p>🍽️ Grilled Salmon Salad</p>
+                                <p>📊 ~520 kcal | 42g protein</p>
+                                <p>⭐ Health Score: 9/10</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features-section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge">Features</span>
+                <h2 class="section-title">Everything You Need for Health Tracking</h2>
+                <p class="section-subtitle">Comprehensive tools powered by AI to help you understand and improve your health</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card featured">
+                    <div class="feature-icon-wrapper">
+                        <span class="feature-icon">📸</span>
+                    </div>
+                    <h3>AI Meal Analysis</h3>
+                    <p>Snap a photo of your food and get instant nutritional breakdown including calories, protein, carbs, and fat estimates.</p>
+                    <div class="feature-tag">Powered by Vision AI</div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon-wrapper">
+                        <span class="feature-icon">📝</span>
+                    </div>
+                    <h3>Symptom Tracking</h3>
+                    <p>Log symptoms with severity ratings. AI identifies patterns and correlations in your health data.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon-wrapper">
+                        <span class="feature-icon">💊</span>
+                    </div>
+                    <h3>Medication Manager</h3>
+                    <p>Track medications, set reminders, and monitor your adherence rate over time.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon-wrapper">
+                        <span class="feature-icon">📊</span>
+                    </div>
+                    <h3>Weekly Reports</h3>
+                    <p>Get comprehensive PDF reports summarizing your health metrics, perfect for sharing with your doctor.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon-wrapper">
+                        <span class="feature-icon">🤖</span>
+                    </div>
+                    <h3>Telegram Bot</h3>
+                    <p>Track everything via Telegram. Just send photos, voice notes, or text messages - no app needed.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon-wrapper">
+                        <span class="feature-icon">💬</span>
+                    </div>
+                    <h3>AI Health Chat</h3>
+                    <p>Ask questions about nutrition, wellness, and your health data. Get personalized insights 24/7.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section id="how-it-works" class="how-section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge">How It Works</span>
+                <h2 class="section-title">Start Tracking in 3 Simple Steps</h2>
+            </div>
+            <div class="steps-container">
+                <div class="step">
+                    <div class="step-number">01</div>
+                    <div class="step-content">
+                        <h3>Sign Up or Connect Telegram</h3>
+                        <p>Create a free account on our web app or start chatting with our Telegram bot instantly.</p>
+                    </div>
+                    <div class="step-visual">
+                        <div class="visual-card">👤 → 🏥</div>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">02</div>
+                    <div class="step-content">
+                        <h3>Log Your Health Data</h3>
+                        <p>Send meal photos for AI analysis, log symptoms, track medications, and record daily wellness scores.</p>
+                    </div>
+                    <div class="step-visual">
+                        <div class="visual-card">📸 📝 💊</div>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">03</div>
+                    <div class="step-content">
+                        <h3>Get Insights & Reports</h3>
+                        <p>AI analyzes your data to find patterns, generate reports, and provide personalized recommendations.</p>
+                    </div>
+                    <div class="step-visual">
+                        <div class="visual-card">📊 🧠 ✨</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Telegram Section -->
+    <section id="telegram" class="telegram-section">
+        <div class="container">
+            <div class="telegram-content">
+                <div class="telegram-info">
+                    <span class="section-badge telegram-badge">📱 Telegram Bot</span>
+                    <h2>Track Health Right From Telegram</h2>
+                    <p>No app downloads needed. Just chat with our bot to log meals, symptoms, and medications on the go.</p>
+                    <ul class="telegram-features">
+                        <li>📸 Send meal photos for instant AI analysis</li>
+                        <li>📝 Type or voice record symptoms</li>
+                        <li>💊 Get medication reminders</li>
+                        <li>📊 Request weekly health reports</li>
+                        <li>💬 Chat with AI for health questions</li>
+                    </ul>
+                    <a href="https://t.me/YOUR_BOT_USERNAME" target="_blank" class="btn btn-telegram btn-lg">
+                        <span class="telegram-logo">✈️</span>
+                        Open in Telegram
+                    </a>
+                </div>
+                <div class="telegram-preview">
+                    <div class="telegram-mockup">
+                        <div class="tg-header">
+                            <span class="tg-back">←</span>
+                            <div class="tg-info">
+                                <span class="tg-name">🏥 HealthLog AI</span>
+                                <span class="tg-status">bot</span>
+                            </div>
+                        </div>
+                        <div class="tg-messages">
+                            <div class="tg-msg bot">
+                                Welcome! 🏥 I'm your health companion. Send me:
+                                <br>📸 Food photo → Log meal
+                                <br>📝 /symptom → Track symptoms
+                                <br>💊 /meds → Medications
+                            </div>
+                            <div class="tg-msg user">
+                                /report
+                            </div>
+                            <div class="tg-msg bot">
+                                📊 <strong>Your Weekly Report</strong>
+                                <br>Meals: 21 | Avg: 1,850 kcal
+                                <br>Energy: 7.2/10 | Mood: 7.5/10
+                                <br>Med adherence: 94% ✅
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Start Your Health Journey Today</h2>
+                <p>Join thousands tracking their wellness with AI-powered insights</p>
+                <div class="cta-actions">
+                    <button class="btn btn-white btn-lg" onclick="showAuthModal('signup')">
+                        Create Free Account
+                    </button>
+                    <a href="https://t.me/YOUR_BOT_USERNAME" class="btn btn-outline-white btn-lg">
+                        Try Telegram Bot
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="logo">
+                        <span class="logo-icon">🏥</span>
+                        <span class="logo-text">HealthLog<span class="logo-accent">AI</span></span>
+                    </div>
+                    <p>AI-powered personal health companion for tracking meals, symptoms, and medications.</p>
+                    <p class="disclaimer">⚠️ Not a substitute for professional medical advice.</p>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-column">
+                        <h4>Product</h4>
+                        <a href="#features">Features</a>
+                        <a href="#how-it-works">How It Works</a>
+                        <a href="#telegram">Telegram Bot</a>
+                        <a href="/dashboard">Dashboard</a>
+                    </div>
+                    <div class="footer-column">
+                        <h4>Resources</h4>
+                        <a href="#">API Docs</a>
+                        <a href="#">Privacy Policy</a>
+                        <a href="#">Terms of Service</a>
+                    </div>
+                    <div class="footer-column">
+                        <h4>Connect</h4>
+                        <a href="https://github.com/rolandrumble">GitHub</a>
+                        <a href="https://t.me/YOUR_BOT_USERNAME">Telegram</a>
+                        <a href="#">Contact</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2024 HealthLog AI. Built with ❤️ for better health.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Auth Modal -->
+    <div id="auth-modal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeAuthModal()">×</button>
+            
+            <!-- Login Form -->
+            <div id="login-form" class="auth-form">
+                <div class="auth-header">
+                    <span class="auth-icon">🏥</span>
+                    <h2>Welcome Back</h2>
+                    <p>Log in to access your health dashboard</p>
+                </div>
+                <form onsubmit="handleLogin(event)">
+                    <div class="form-group">
+                        <label for="login-email">Email</label>
+                        <input type="email" id="login-email" required placeholder="you@example.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="login-password">Password</label>
+                        <input type="password" id="login-password" required placeholder="••••••••">
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+                </form>
+                <div class="auth-divider">
+                    <span>or</span>
+                </div>
+                <a href="https://t.me/YOUR_BOT_USERNAME" class="btn btn-telegram btn-block">
+                    ✈️ Continue with Telegram
+                </a>
+                <p class="auth-switch">Don't have an account? <a href="#" onclick="showAuthModal('signup')">Sign Up</a></p>
+            </div>
+            
+            <!-- Signup Form -->
+            <div id="signup-form" class="auth-form" style="display: none;">
+                <div class="auth-header">
+                    <span class="auth-icon">🏥</span>
+                    <h2>Create Account</h2>
+                    <p>Start your health tracking journey</p>
+                </div>
+                <form onsubmit="handleSignup(event)">
+                    <div class="form-group">
+                        <label for="signup-name">Full Name</label>
+                        <input type="text" id="signup-name" required placeholder="John Doe">
+                    </div>
+                    <div class="form-group">
+                        <label for="signup-email">Email</label>
+                        <input type="email" id="signup-email" required placeholder="you@example.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="signup-password">Password</label>
+                        <input type="password" id="signup-password" required placeholder="••••••••" minlength="6">
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Create Account</button>
+                </form>
+                <div class="auth-divider">
+                    <span>or</span>
+                </div>
+                <a href="https://t.me/YOUR_BOT_USERNAME" class="btn btn-telegram btn-block">
+                    ✈️ Continue with Telegram
+                </a>
+                <p class="auth-switch">Already have an account? <a href="#" onclick="showAuthModal('login')">Sign In</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/js/app.js"></script>
+</body>
+</html>
