@@ -273,8 +273,8 @@
     </main>
 
     <!-- Quick Log Modal -->
-    <div id="quick-log-modal" class="modal">
-        <div class="modal-content">
+    <div id="quick-log-modal" class="modal" onclick="handleModalBackdropClick(event, 'quick-log-modal')">
+        <div class="modal-content" onclick="event.stopPropagation()">
             <button class="modal-close" onclick="closeModal('quick-log-modal')">×</button>
             <h2>Quick Log</h2>
             <div class="quick-log-options">
@@ -295,8 +295,8 @@
     </div>
 
     <!-- Meal Log Modal -->
-    <div id="meal-log-modal" class="modal">
-        <div class="modal-content">
+    <div id="meal-log-modal" class="modal" onclick="handleModalBackdropClick(event, 'meal-log-modal')">
+        <div class="modal-content modal-large" onclick="event.stopPropagation()">
             <button class="modal-close" onclick="closeModal('meal-log-modal')">×</button>
             <h2>Log Meal</h2>
             <form id="meal-form" onsubmit="handleMealSubmit(event)">
@@ -324,16 +324,21 @@
                     <input type="text" id="meal-description" placeholder="e.g., Grilled chicken salad">
                 </div>
                 <button type="submit" class="btn btn-primary btn-block" id="meal-submit-btn">
-                    <span class="btn-text">Log Meal</span>
-                    <span class="btn-loader" style="display: none;">Analyzing...</span>
+                    <span class="btn-text">Analyze & Log Meal</span>
+                    <span class="btn-loader" style="display: none;">🔍 Analyzing...</span>
                 </button>
             </form>
+            <!-- Nutritional Analysis Results -->
+            <div id="nutrition-results" style="display: none; margin-top: 24px; padding-top: 24px; border-top: 1px solid var(--border-color);">
+                <h3 style="margin-bottom: 16px; color: var(--primary);">📊 Nutritional Analysis</h3>
+                <div id="nutrition-content"></div>
+            </div>
         </div>
     </div>
 
     <!-- Symptom Log Modal -->
-    <div id="symptom-log-modal" class="modal">
-        <div class="modal-content">
+    <div id="symptom-log-modal" class="modal" onclick="handleModalBackdropClick(event, 'symptom-log-modal')">
+        <div class="modal-content" onclick="event.stopPropagation()">
             <button class="modal-close" onclick="closeModal('symptom-log-modal')">×</button>
             <h2>Log Symptom</h2>
             <form id="symptom-form" onsubmit="handleSymptomSubmit(event)">
@@ -362,8 +367,8 @@
     </div>
 
     <!-- Medication Modal -->
-    <div id="med-modal" class="modal">
-        <div class="modal-content">
+    <div id="med-modal" class="modal" onclick="handleModalBackdropClick(event, 'med-modal')">
+        <div class="modal-content" onclick="event.stopPropagation()">
             <button class="modal-close" onclick="closeModal('med-modal')">×</button>
             <h2>Add Medication</h2>
             <form id="med-form" onsubmit="handleMedSubmit(event)">

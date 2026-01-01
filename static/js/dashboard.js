@@ -147,9 +147,20 @@ function showMealLogModal() {
         const uploadArea = document.getElementById('meal-upload-area');
         const mealPreview = document.getElementById('meal-preview');
         const mealPhoto = document.getElementById('meal-photo');
+        const nutritionResults = document.getElementById('nutrition-results');
+        const submitBtn = document.getElementById('meal-submit-btn');
+        const closeBtn = document.getElementById('close-meal-modal-btn');
+        
         if (uploadArea) uploadArea.style.display = 'block';
         if (mealPreview) mealPreview.style.display = 'none';
         if (mealPhoto) mealPhoto.value = '';
+        if (nutritionResults) nutritionResults.style.display = 'none';
+        if (submitBtn) submitBtn.style.display = 'block';
+        if (closeBtn) closeBtn.remove();
+        
+        // Reset form
+        const form = document.getElementById('meal-form');
+        if (form) form.reset();
     } else {
         console.error('meal-log-modal not found!');
     }
@@ -180,6 +191,23 @@ function closeModal(id) {
     const modal = document.getElementById(id);
     if (modal) {
         modal.classList.remove('active');
+        // Reset meal form if closing meal modal
+        if (id === 'meal-log-modal') {
+            const nutritionResults = document.getElementById('nutrition-results');
+            if (nutritionResults) nutritionResults.style.display = 'none';
+            const form = document.getElementById('meal-form');
+            if (form) form.reset();
+            const mealPreview = document.getElementById('meal-preview');
+            const uploadArea = document.getElementById('meal-upload-area');
+            if (mealPreview) mealPreview.style.display = 'none';
+            if (uploadArea) uploadArea.style.display = 'block';
+        }
+    }
+}
+
+function handleModalBackdropClick(event, modalId) {
+    if (event.target.id === modalId) {
+        closeModal(modalId);
     }
 }
 
@@ -222,11 +250,8 @@ async function handleMealSubmit(e) {
             const data = await res.json();
             console.log('Meal logged:', data);
             
-            const calories = data.analysis?.calories || 0;
-            const description = data.analysis?.description || 'Meal';
-            
-            alert(`✅ Meal logged successfully!\n\n🍽️ ${description}\n📊 Calories: ${calories} kcal`);
-            closeModal('meal-log-modal');
+            // Display nutritional analysis in modal
+            displayNutritionResults(data);
             loadDashboardData();
         } else {
             const err = await res.json();
@@ -378,4 +403,76 @@ function navigateTo(section) {
 function handleLogout() {
     localStorage.removeItem('healthlog_user');
     window.location.href = '/';
+}
+
+// Display nutritional analysis results
+function displayNutritionResults(data) {
+    const nutritionResults = document.getElementById('nutrition-results');
+    const nutritionContent = document.getElementById('nutrition-content');
+    
+    if (!nutritionResults || !nutritionContent) return;
+    
+    const analysis = data.analysis || {};
+    const calories = analysis.calories || 0;
+    const protein = analysis.protein || 0;
+    const carbs = analysis.carbs || 0;
+    const fat = analysis.fat || 0;
+    const description = analysis.description || analysis.meal_description || 'Meal analyzed';
+    const details = analysis.details || analysis.nutritional_info || '';
+    
+    // Build HTML for nutrition display
+    let html = `
+        <div class="nutrition-description">
+            <strong>🍽️ ${description}</strong>
+        </div>
+        <div class="nutrition-grid">
+            <div class="nutrition-item">
+                <div class="nutrition-label">Calories</div>
+                <div class="nutrition-value">${calories}</div>
+                <div style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">kcal</div>
+            </div>
+            <div class="nutrition-item">
+                <div class="nutrition-label">Protein</div>
+                <div class="nutrition-value">${protein}g</div>
+            </div>
+            <div class="nutrition-item">
+                <div class="nutrition-label">Carbs</div>
+                <div class="nutrition-value">${carbs}g</div>
+            </div>
+            <div class="nutrition-item">
+                <div class="nutrition-label">Fat</div>
+                <div class="nutrition-value">${fat}g</div>
+            </div>
+        </div>
+    `;
+    
+    if (details) {
+        html += `<div class="nutrition-description" style="margin-top: 16px;">${details}</div>`;
+    }
+    
+    nutritionContent.innerHTML = html;
+    nutritionResults.style.display = 'block';
+    
+    // Scroll to nutrition results
+    nutritionResults.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    
+    // Hide submit button, show close button option
+    const submitBtn = document.getElementById('meal-submit-btn');
+    if (submitBtn) {
+        submitBtn.style.display = 'none';
+    }
+    
+    // Add a close button after results
+    if (!document.getElementById('close-meal-modal-btn')) {
+        const closeBtn = document.createElement('button');
+        closeBtn.id = 'close-meal-modal-btn';
+        closeBtn.className = 'btn btn-primary btn-block';
+        closeBtn.style.marginTop = '16px';
+        closeBtn.textContent = 'Close';
+        closeBtn.onclick = () => {
+            closeModal('meal-log-modal');
+            loadDashboardData();
+        };
+        nutritionResults.appendChild(closeBtn);
+    }
 }
