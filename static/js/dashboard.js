@@ -116,34 +116,25 @@ function showQuickLogModal() {
 }
 
 function setupMealUpload() {
-    const uploadArea = document.getElementById('meal-upload-area');
     const mealPhoto = document.getElementById('meal-photo');
     const mealPreview = document.getElementById('meal-preview');
+    const uploadArea = document.getElementById('meal-upload-area');
     
-    if (!uploadArea || !mealPhoto || !mealPreview) {
+    if (!mealPhoto || !mealPreview || !uploadArea) {
         console.warn('Meal upload elements not found');
         return;
     }
     
     // Check if already set up to avoid duplicate listeners
-    if (uploadArea.dataset.listenersAttached === 'true') {
+    if (mealPhoto.dataset.listenersAttached === 'true') {
         console.log('Upload listeners already attached');
         return;
     }
     
     // Mark as set up
-    uploadArea.dataset.listenersAttached = 'true';
+    mealPhoto.dataset.listenersAttached = 'true';
     
-    // Add click listener to upload area
-    uploadArea.style.cursor = 'pointer';
-    uploadArea.addEventListener('click', (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        console.log('Upload area clicked');
-        mealPhoto.click();
-    });
-    
-    // Add change listener to file input
+    // Add change listener to file input (label handles the click automatically)
     mealPhoto.addEventListener('change', (e) => {
         const file = e.target.files[0];
         console.log('File selected:', file?.name, file?.type, file?.size);
@@ -210,7 +201,7 @@ function showMealLogModal() {
         if (form) form.reset();
         
         // Clear the listeners flag so we can re-attach if needed
-        if (uploadArea) uploadArea.dataset.listenersAttached = 'false';
+        if (mealPhoto) mealPhoto.dataset.listenersAttached = 'false';
         
         // Setup upload handlers after modal is shown
         setTimeout(() => {

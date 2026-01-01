@@ -302,12 +302,12 @@
             <form id="meal-form" onsubmit="handleMealSubmit(event)">
                 <div class="form-group">
                     <label>Meal Photo</label>
-                    <div class="upload-area" id="meal-upload-area">
-                        <input type="file" id="meal-photo" accept="image/*" hidden>
+                    <label for="meal-photo" class="upload-area" id="meal-upload-area" style="cursor: pointer;">
+                        <input type="file" id="meal-photo" accept="image/*" style="display: none;">
                         <span class="upload-icon">📸</span>
                         <p>Click to upload or drag & drop</p>
                         <p class="upload-hint">AI will analyze nutritional content</p>
-                    </div>
+                    </label>
                     <img id="meal-preview" class="image-preview" style="display: none;">
                 </div>
                 <div class="form-group">
