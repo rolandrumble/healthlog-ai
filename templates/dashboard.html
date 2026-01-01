@@ -394,6 +394,48 @@
         </div>
     </div>
 
+    <!-- INLINE MODAL FUNCTIONS - CRITICAL FOR UI -->
+    <script>
+        // Ensure modal functions are available globally
+        window.showMealLogModal = function() {
+            console.log('Opening meal log modal');
+            const modal = document.getElementById('meal-log-modal');
+            if (modal) {
+                modal.classList.add('active');
+                console.log('Meal modal opened');
+            }
+        };
+        
+        window.showSymptomLogModal = function() {
+            console.log('Opening symptom log modal');
+            const modal = document.getElementById('symptom-log-modal');
+            if (modal) {
+                modal.classList.add('active');
+                console.log('Symptom modal opened');
+            }
+        };
+        
+        window.showMedicationModal = function() {
+            console.log('Opening medication modal');
+            const modal = document.getElementById('med-modal');
+            if (modal) {
+                modal.classList.add('active');
+                console.log('Medication modal opened');
+            }
+        };
+        
+        window.closeModal = function(modalId) {
+            console.log('Closing modal:', modalId);
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.remove('active');
+                console.log('Modal closed');
+            }
+        };
+        
+        console.log('✅ Modal functions initialized');
+    </script>
+
     <script src="/static/js/app.js"></script>
     <script src="/static/js/dashboard.js"></script>
 </body>
