@@ -85,31 +85,8 @@ function initForms() {
         });
     }
 
-    // Meal upload area
-    const uploadArea = document.getElementById('meal-upload-area');
-    const mealPhoto = document.getElementById('meal-photo');
-    const mealPreview = document.getElementById('meal-preview');
-    
-    if (uploadArea && mealPhoto) {
-        uploadArea.addEventListener('click', () => {
-            console.log('Upload area clicked');
-            mealPhoto.click();
-        });
-        
-        mealPhoto.addEventListener('change', e => {
-            const file = e.target.files[0];
-            console.log('File selected:', file?.name);
-            if (file && mealPreview) {
-                const reader = new FileReader();
-                reader.onload = ev => {
-                    mealPreview.src = ev.target.result;
-                    mealPreview.style.display = 'block';
-                    uploadArea.style.display = 'none';
-                };
-                reader.readAsDataURL(file);
-            }
-        });
-    }
+    // Meal upload area - setup event listeners
+    setupMealUpload();
 }
 
 async function loadDashboardData() {
@@ -138,6 +115,76 @@ function showQuickLogModal() {
     }
 }
 
+function setupMealUpload() {
+    const uploadArea = document.getElementById('meal-upload-area');
+    const mealPhoto = document.getElementById('meal-photo');
+    const mealPreview = document.getElementById('meal-preview');
+    
+    if (!uploadArea || !mealPhoto || !mealPreview) {
+        console.warn('Meal upload elements not found');
+        return;
+    }
+    
+    // Check if already set up to avoid duplicate listeners
+    if (uploadArea.dataset.listenersAttached === 'true') {
+        console.log('Upload listeners already attached');
+        return;
+    }
+    
+    // Mark as set up
+    uploadArea.dataset.listenersAttached = 'true';
+    
+    // Add click listener to upload area
+    uploadArea.style.cursor = 'pointer';
+    uploadArea.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        console.log('Upload area clicked');
+        mealPhoto.click();
+    });
+    
+    // Add change listener to file input
+    mealPhoto.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        console.log('File selected:', file?.name, file?.type, file?.size);
+        
+        if (!file) {
+            console.warn('No file selected');
+            return;
+        }
+        
+        // Validate file type
+        if (!file.type.startsWith('image/')) {
+            alert('Please select an image file');
+            mealPhoto.value = '';
+            return;
+        }
+        
+        // Validate file size (max 10MB)
+        if (file.size > 10 * 1024 * 1024) {
+            alert('File size too large. Please select an image under 10MB');
+            mealPhoto.value = '';
+            return;
+        }
+        
+        const reader = new FileReader();
+        reader.onload = (ev) => {
+            mealPreview.src = ev.target.result;
+            mealPreview.style.display = 'block';
+            uploadArea.style.display = 'none';
+            console.log('Image preview loaded');
+        };
+        reader.onerror = () => {
+            console.error('Error reading file');
+            alert('Error reading file. Please try another image.');
+            mealPhoto.value = '';
+        };
+        reader.readAsDataURL(file);
+    });
+    
+    console.log('Meal upload handlers set up successfully');
+}
+
 function showMealLogModal() {
     console.log('Opening Meal Log modal');
     const modal = document.getElementById('meal-log-modal');
@@ -161,6 +208,14 @@ function showMealLogModal() {
         // Reset form
         const form = document.getElementById('meal-form');
         if (form) form.reset();
+        
+        // Clear the listeners flag so we can re-attach if needed
+        if (uploadArea) uploadArea.dataset.listenersAttached = 'false';
+        
+        // Setup upload handlers after modal is shown
+        setTimeout(() => {
+            setupMealUpload();
+        }, 100);
     } else {
         console.error('meal-log-modal not found!');
     }
